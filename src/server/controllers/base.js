@@ -4,6 +4,7 @@ const SchemaTypes = require('mongoose').Schema.Types;
 class BaseController {
   constructor(Model) {
     this.Model = Model;
+    this._fieldsToPopulate = [];
   }
 
   clear() {
@@ -18,8 +19,14 @@ class BaseController {
     return this.Model.find(query);
   }
 
-  readById(id) {
-    return this.Model.findById(id);
+  readById(id, options) {
+    let qry = this.Model.findById(id);
+    if (options && options.populate) {
+      this._fieldsToPopulate.forEach((f) => {
+        qry.populate({path: f});
+      });
+    }
+    return qry;
   }
 
   updateById(id, body) {
@@ -166,6 +173,10 @@ class BaseController {
         } else if(typeof(type) === 'object') {
           if (type.instance === 'String') {
             self.addQueryForStringField(key, value, query);
+          } else if (type.instance === 'Array') {
+            let obj = {};
+            obj[key] = {$in: value.split(' ')};
+            query.where(obj);
           }
         } else {
           logger.warn('Ignoring key: %s, no handler for the particular type', key);
@@ -191,6 +202,8 @@ class BaseController {
     let skip = 0;
     let sort = '';
     const logger = global.logger;
+    let query = this.Model.find();
+
     try {
       limit = (params && params.$limit) ? parseInt(params.$limit, 10) : MAX_LIMIT;
       skip = (params && params.$skip) ? parseInt(params.$skip, 10) : 0;
@@ -202,10 +215,6 @@ class BaseController {
     if (skip < 0) skip = 0;
 
     logger.info('Sort By Fields: %s', sort);
-    let query = this.Model.find();
-
-
-
     parseOtherParams && this.parseOtherParams(query, params);
     query.sort(sort);
     return {

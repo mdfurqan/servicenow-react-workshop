@@ -1,0 +1,30 @@
+{
+  "categories": [
+    {
+      "category": "Engineering",
+      "tags": ["Javascript", "Java", "Node", "Hadoop",
+        "Cloud", "UI", "UX", "Selenium", "Jest", "Mocha", "Chai", "Sinon", "Front End",
+        "Full Stack", "C/C++", "C#", "Angular", "React", "React/Redux","Database"
+      ]
+    },
+    {
+      "category": "Big Data",
+      "tags": ["Hadoop", "HBase"]
+    },
+    {
+      "category": "Quality",
+      "tags": ["Selenium", "Automated", "Manual"]
+    },
+    {
+      "category": "HR",
+      "tags": ["Recruitment", "Benefits", "Career Development", "Engagement"]
+    }
+  ],
+  "allTags" : [
+    "Javascript", "Java", "Node", "Hadoop",
+    "Cloud", "UI", "UX", "Selenium", "Jest", "Mocha", "Chai", "Sinon", "Front End",
+    "Full Stack", "C/C++", "C#", "Angular", "React", "React/Redux","Database",
+    "Hadoop", "HBase", "Automated", "Manual",
+    "Recruitment", "Benefits", "Career Development", "Engagement"
+  ]
+}
